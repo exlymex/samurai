@@ -19,16 +19,21 @@ let initialState = {
     newDialogsText : 'Avada'
 }
 const dialogsReducer = (state = initialState, action) => {
-    //    debugger
     switch (action.type) {
-        case UPDATE__NEW__DIALOGS__TEXT:
-            state.newDialogsText = action.dialogs
-            return state
-        case ADD__NEW__DIALOGS__TEXT:
+        case UPDATE__NEW__DIALOGS__TEXT : {
+            return{
+                ...state,
+                 newDialogsText:action.dialogs
+             }
+        }
+        case ADD__NEW__DIALOGS__TEXT: {
             let newText = state.newDialogsText
-            state.newDialogsText = ''
-            state.messages.push({ id: 6, message: newText })
-            return state
+            return  {
+                ...state,
+                newDialogsText : '',
+                messages:[...state.messages,{id: 6, message: newText}]
+            }
+        }
         default :
         return state;
     }
