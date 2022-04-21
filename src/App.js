@@ -4,9 +4,16 @@ import Navbar from './components/Navbar/Navbar';
 import Profile from './components/Profile/Profile';
 import DialogsContainer from './components/Dialogs/DialogsContainer';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import UsersContainer from "./components/Users/UsersContainer";
 
 
-function App(props) {
+
+function App() {
+  const check = ()=> {
+    return(
+      <div>Users UsersUsers UsersUsersUsersUsersUsersUsersUsersUsersUsersUsersUsersUsersUsersUsersUsersUsers</div>
+    )
+  }
   return (
     <BrowserRouter>
       <div className='app-wrapper'>
@@ -14,11 +21,9 @@ function App(props) {
         <Navbar />
         <div className='app-wrapper-content'>
           <Routes>
-            <Route path='/profile/*' element={<Profile  />}></Route>
-            <Route path='/dialogs/*' element={<DialogsContainer  />}></Route>
-            {/* <Route path = '/news' element={<Profile />}></Route>
-      <Route path = '/music' element={<Dialogs />}></Route>
-      <Route path = '/settings' element={<Dialogs />}></Route> */}
+            <Route path='/profile/*' element={<Profile/>}></Route>
+            <Route path='/dialogs/*' element={<DialogsContainer/>}></Route>
+            <Route path='/users/*' element={<UsersContainer/>}></Route>
           </Routes>
 
         </div>
