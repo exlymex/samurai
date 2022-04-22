@@ -1,5 +1,5 @@
 import React from 'react'
-import Users from "./Users";
+import Users from "./UsersС";
 import {connect} from "react-redux";
 import mapStateToProps from "react-redux/lib/connect/mapStateToProps";
 import mapDispatchToProps from "react-redux/lib/connect/mapDispatchToProps";
