@@ -2,3 +2,9 @@
     width: 100px;
     height:100px;
 }
+div{
+    cursor: pointer;
+}
+.selectedPage{
+    font-weight: bold;
+}

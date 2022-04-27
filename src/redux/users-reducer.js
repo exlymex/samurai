@@ -3,13 +3,13 @@ import { act } from "@testing-library/react"
 const FOLLOW = 'FOLLOW'
 const UNFOLLOW = 'UNFOLLOW'
 const SET_USERS = 'SET_USERS'
+const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE'
+const SET_TOTAL_COUNT = 'SET_TOTAL_COUNT'
 let initialState = {
-    users: [
-        // { id: 1,photoURL:'https://media.wired.com/photos/62328c272c80bae389480b49/16:9/w_2400,h_1350,c_limit/Volodymyr-Zelensky-Deepfake-Ukraine-Business-1239124035.jpg', followed:false, fullName: 'Pasha', status: "I'm a boss",location: {city: 'Kyiv',country:'Ukraine'} },
-        // { id: 2,photoURL:'https://media.wired.com/photos/62328c272c80bae389480b49/16:9/w_2400,h_1350,c_limit/Volodymyr-Zelensky-Deepfake-Ukraine-Business-1239124035.jpg', followed:false, fullName: 'Ruslan', status: "I'm a ex-boss",location: {city: 'Lviv',country:'Ukraine'} },
-        // { id: 3,photoURL:'https://media.wired.com/photos/62328c272c80bae389480b49/16:9/w_2400,h_1350,c_limit/Volodymyr-Zelensky-Deepfake-Ukraine-Business-1239124035.jpg', followed:true, fullName: 'Andriy', status: "I'm a future boss",location: {city: 'Mariupol',country:'Ukraine'} },
-        // { id: 4,photoURL:'https://media.wired.com/photos/62328c272c80bae389480b49/16:9/w_2400,h_1350,c_limit/Volodymyr-Zelensky-Deepfake-Ukraine-Business-1239124035.jpg', followed:true, fullName: 'Roman', status: "I'm a mega-boss",location: {city: 'Donetsk',country:'Ukraine'} },
-    ],
+    users: [],
+    pageSize: 5,
+    totalUserCount: 0,
+    currentPage:1
 }
 export const usersReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -34,7 +34,13 @@ export const usersReducer = (state = initialState, action) => {
                 })
             }
         case SET_USERS : {
-            return {...state,users:[...state.users,...action.users]}
+            return {...state,users: action.users}
+        }
+        case SET_CURRENT_PAGE : {
+            return {...state,currentPage:action.currentPage }
+        }
+        case SET_TOTAL_COUNT : {
+            return {...state,totalUserCount:action.totalCount}
         }
         default:
             return state;
@@ -45,5 +51,6 @@ export const usersReducer = (state = initialState, action) => {
 export const followAC = (userId) => ({type: FOLLOW,userId})
 export const unfollowAC = (userId) => ({type: UNFOLLOW,userId})
 export const setUserAC = (users) => ({type: SET_USERS,users})
-
+export const setCurrentPageAC = (currentPage) => ({type:SET_CURRENT_PAGE,currentPage})
+export const setUsersTotalCountAC = (totalCount) => ({type: SET_TOTAL_COUNT,totalCount:totalCount})
 export default usersReducer
