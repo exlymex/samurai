@@ -8,6 +8,7 @@ import {
     useNavigate,
     useParams,
 } from "react-router-dom";
+import {usersAPI} from "../../api/api";
 
 function withRouter(Component) {
     function ComponentWithRouterProp(props) {
@@ -26,12 +27,11 @@ function withRouter(Component) {
 }
 
 class ProfileContainer extends React.Component{
-
     componentDidMount() {
         let userId = this.props.router.params.userId;
-        axios.get(`https://social-network.samuraijs.com/api/1.0/profile/${userId}`)
-            .then(response => {
-                this.props.setUserProfile(response.data)
+        usersAPI.getUserProfile(userId)
+            .then(data => {
+                this.props.setUserProfile(data)
             })
     }
     render() {
