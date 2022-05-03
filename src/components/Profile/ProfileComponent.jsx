@@ -12,6 +12,7 @@ import {
     useParams,
 } from "react-router-dom";
 import {WithAuthRedirect} from "../../HOC/withAuthRedirect";
+import {compose} from "redux";
 
 function withRouter(Component) {
     function ComponentWithRouterProp(props) {
@@ -44,16 +45,20 @@ class ProfileContainer extends React.Component{
         )
     }
 }
-let AuthRedirectComponent = WithAuthRedirect(ProfileContainer)
-
-let mapStateToPropsForRedirect = (state) => ({
-    isAuth:state.auth.isAuth
-})
-AuthRedirectComponent = connect(mapStateToPropsForRedirect)(AuthRedirectComponent)
-
 
 let mapStateToProps = (state) => ({
-  profile:state.profilePage.profile,
+    profile:state.profilePage.profile,
 })
 
-export default connect(mapStateToProps,{profileThunkCreator})(withRouter(AuthRedirectComponent));
+export default compose(
+    connect(mapStateToProps,{profileThunkCreator}),
+    withRouter,
+    WithAuthRedirect
+)(ProfileContainer)
+
+// let AuthRedirectComponent = WithAuthRedirect(ProfileContainer)
+// let mapStateToPropsForRedirect = (state) => ({
+//     isAuth:state.auth.isAuth
+// })
+// let WithRedirectComponent = connect(mapStateToPropsForRedirect)(AuthRedirectComponent)
+// export default connect(mapStateToProps,{profileThunkCreator})(withRouter(WithRedirectComponent));

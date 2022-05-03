@@ -10,11 +10,8 @@ import {
 } from "../../redux/users-reducer";
 import Users from "./Users";
 import Preloader from "../common/Preloader/Preloader";
-import {usersAPI} from "../../api/api";
-
-
+import {compose} from "redux";
 class UsersContainer extends React.Component {
-
     componentDidMount() {
       //   this.props.toggleIsFetching(true)
       // usersAPI.getUser(this.props.currentPage,this.props.pageSize).then(data => {
@@ -86,8 +83,12 @@ let mapsStateToProps = (state) => {
 //         }
 //     }
 // }
-export default connect(mapsStateToProps,
-    {follow,unfollow,setCurrentPage,
-                     toggleIsFollowingProgress,getUsersThunkCreator,
-                     followThunkCreator,unfollowThunkCreator
-    })(UsersContainer)
+// export default connect(mapsStateToProps,
+//     {follow,unfollow,setCurrentPage,
+//                      toggleIsFollowingProgress,getUsersThunkCreator,
+//                      followThunkCreator,unfollowThunkCreator
+//     })(UsersContainer)
+
+export default compose(
+    connect(mapsStateToProps, {follow,unfollow,setCurrentPage,toggleIsFollowingProgress,getUsersThunkCreator,followThunkCreator,unfollowThunkCreator}
+))(UsersContainer)
