@@ -33,9 +33,10 @@ export const usersAPI = {
           })
     },
     getAuthMe(){
-        return instance.get(`https://social-network.samuraijs.com/api/1.0/auth/me`)
+        return instance.get(`auth/me`)
             .then(response => {
                 return response.data
             })
     }
 }
+

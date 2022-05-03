@@ -4,6 +4,7 @@ import userPhoto from "../../assets/images/user.png";
 import {NavLink} from "react-router-dom";
 import * as axios from "axios";
 import {usersAPI} from "../../api/api";
+import {followThunkCreator, unfollowThunkCreator} from "../../redux/users-reducer";
 
 let Users = (props) => {
     let pagesCount = Math.ceil(props.totalUserCount / props.pageSize)
@@ -34,24 +35,10 @@ let Users = (props) => {
                     <div>
                         {u.followed
                             ? <button disabled={props.followingInProgress.some(id=> id === u.id)}  onClick={() => {
-                                props.toggleIsFollowingProgress(true,u.id)
-                                usersAPI.deleteFollow(u.id)
-                                    .then(data => {
-                                        if(data.resultCode == 0){
-                                            props.unfollow(u.id)
-                                        }
-                                        props.toggleIsFollowingProgress(false,u.id)
-                                    })
+                               props.unfollowThunkCreator(u.id)
                             }}>Unfollow</button>
                             : <button disabled={props.followingInProgress.some(id=> id === u.id)} onClick={() => {
-                                props.toggleIsFollowingProgress(true,u.id)
-                                usersAPI.postFollow(u.id)
-                                    .then(data => {
-                                        if(data.resultCode == 0){
-                                            props.follow(u.id)
-                                        }
-                                        props.toggleIsFollowingProgress(false,u.id)
-                                    })
+                               props.followThunkCreator(u.id)
 
                             }}>follow</button>}
                     </div>

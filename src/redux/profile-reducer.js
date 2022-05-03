@@ -1,4 +1,5 @@
-import { act } from "@testing-library/react"
+
+import {usersAPI} from "../api/api";
 
 const ADD__POST = 'ADD__POST'
 const UPDATE_NEW_POST_TEXT = 'UPDATE_NEW_POST_TEXT'
@@ -40,6 +41,13 @@ export const profileReducer = (state = initialState, action) => {
             return state;
     }
 
+}
+
+export const profileThunkCreator = (userId) => (dispatch) => {
+        usersAPI.getUserProfile(userId)
+            .then(data => {
+                dispatch(setUserProfile(data))
+            })
 }
 
 export const setUserProfile = (profile) => ({type:SET_USERS_PROFILE,profile})

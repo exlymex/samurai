@@ -1,37 +1,40 @@
 import React from 'react'
 import {connect} from "react-redux";
 import {
-    follow,
+    follow, followThunkCreator, getUsersThunkCreator,
     setCurrentPage,
     setUser,
     setUsersTotalCount,
     toggleIsFetching, toggleIsFollowingProgress,
-    unfollow
+    unfollow, unfollowThunkCreator
 } from "../../redux/users-reducer";
-import * as axios from "axios";
 import Users from "./Users";
 import Preloader from "../common/Preloader/Preloader";
 import {usersAPI} from "../../api/api";
 
 
 class UsersContainer extends React.Component {
+
     componentDidMount() {
-      usersAPI.getUser(this.props.currentPage,this.props.pageSize).then(data => {
-                this.props.toggleIsFetching(false)
-                this.props.setUser(data.items)
-                this.props.setUsersTotalCount(data.totalCount)
-            })
+      //   this.props.toggleIsFetching(true)
+      // usersAPI.getUser(this.props.currentPage,this.props.pageSize).then(data => {
+      //           this.props.toggleIsFetching(false)
+      //           this.props.setUser(data.items)
+      //           this.props.setUsersTotalCount(data.totalCount)
+      //       })
+        this.props.getUsersThunkCreator(this.props.currentPage,this.props.pageSize)
     }
 
     onPageChanged = (pageNumber) => {
-        this.props.setCurrentPage(pageNumber)
-        this.props.toggleIsFetching(true)
-        usersAPI.getUser(pageNumber,this.props.pageSize)
-            .then(data => {
-                this.props.toggleIsFetching(false)
-                this.props.setUser(data.items)
-
-            })
+        this.props.getUsersThunkCreator(pageNumber,this.props.pageSize)
+        // this.props.setCurrentPage(pageNumber)
+        // this.props.toggleIsFetching(true)
+        // usersAPI.getUser(pageNumber,this.props.pageSize)
+        //     .then(data => {
+        //         this.props.toggleIsFetching(false)
+        //         this.props.setUser(data.items)
+        //
+        //     })
     }
 
     render() {
@@ -43,10 +46,9 @@ class UsersContainer extends React.Component {
                    currentPage={this.props.currentPage}
                    onPageChanged={this.onPageChanged}
                    users={this.props.users}
-                   follow={this.props.follow}
-                   unfollow={this.props.unfollow}
                    followingInProgress={this.props.followingInProgress}
-                   toggleIsFollowingProgress={this.props.toggleIsFollowingProgress}
+                   followThunkCreator = {this.props.followThunkCreator}
+                   unfollowThunkCreator = {this.props.unfollowThunkCreator}
             />
         </>
     }
@@ -85,7 +87,7 @@ let mapsStateToProps = (state) => {
 //     }
 // }
 export default connect(mapsStateToProps,
-    {follow,unfollow,setUser,setCurrentPage,
-                    setUsersTotalCount,toggleIsFetching,
-                     toggleIsFollowingProgress
+    {follow,unfollow,setCurrentPage,
+                     toggleIsFollowingProgress,getUsersThunkCreator,
+                     followThunkCreator,unfollowThunkCreator
     })(UsersContainer)
