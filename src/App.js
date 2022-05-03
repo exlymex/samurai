@@ -5,6 +5,7 @@ import DialogsContainer from './components/Dialogs/DialogsContainer';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import UsersContainer from "./components/Users/UsersContainer";
 import ProfileComponent from "./components/Profile/ProfileComponent";
+import Login from "./components/Login/Login";
 
 
 
@@ -18,7 +19,7 @@ function App() {
           <Routes>
             <Route path='/profile/:userId' element={<ProfileComponent/>}></Route>
             <Route path='/profile' element={<ProfileComponent/>}></Route>
-            <Route path='/login' element={<ProfileComponent/>}></Route>
+            <Route path='/login' element={<Login/>}></Route>
             <Route path='/dialogs/*' element={<DialogsContainer/>}></Route>
             <Route path='/users/*' element={<UsersContainer/>}></Route>
           </Routes>

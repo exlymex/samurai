@@ -1,13 +1,17 @@
 import React from "react";
 import Profile from "./Profile";
 import * as axios from "axios";
+import { Navigate, Outlet } from "react-router-dom";
 import {connect} from "react-redux";
 import {profileThunkCreator} from "../../redux/profile-reducer";
 import {
+    Route,
+    Routes,
     useLocation,
     useNavigate,
     useParams,
 } from "react-router-dom";
+import Login from "../Login/Login";
 
 function withRouter(Component) {
     function ComponentWithRouterProp(props) {
@@ -31,6 +35,11 @@ class ProfileContainer extends React.Component{
         this.props.profileThunkCreator(userId)
     }
     render() {
+        if(!this.props.isAuth){
+            return(
+                <Navigate to={'/login'} />
+            )
+        }
 
         return (
             <div>
@@ -40,7 +49,8 @@ class ProfileContainer extends React.Component{
     }
 }
 let mapStateToProps = (state) => ({
-  profile:state.profilePage.profile
+  profile:state.profilePage.profile,
+  isAuth:state.auth.isAuth
 })
 
 export default connect(mapStateToProps,{profileThunkCreator})(withRouter(ProfileContainer));
