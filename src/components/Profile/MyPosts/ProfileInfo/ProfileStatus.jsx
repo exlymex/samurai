@@ -20,7 +20,15 @@ class ProfileStatus extends React.Component{
            status:e.currentTarget.value
        })
     }
-   render() {
+    componentDidUpdate(prevProps,prevState) {
+        if(prevProps.status !== this.props.status){
+            this.setState({
+                status:this.props.status
+            })
+        }
+    }
+
+    render() {
        return(
        <div>
            {!this.state.editMode &&
