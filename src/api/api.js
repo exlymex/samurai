@@ -27,10 +27,7 @@ export const usersAPI = {
             })
     },
     getUserProfile(userId) {
-      return instance.get(`profile/${userId}`)
-          .then(response => {
-              return response.data
-          })
+      return profileAPI.getUserProfile(userId)
     },
     getAuthMe(){
         return instance.get(`auth/me`)
@@ -40,3 +37,22 @@ export const usersAPI = {
     }
 }
 
+
+
+export const profileAPI = {
+    getUserProfile(userId) {
+        return instance.get(`profile/${userId}`)
+            .then(response => {
+                return response.data
+            })
+    },
+    getUserStatus(userId){
+        return instance.get(`profile/status/${userId}`)
+            .then(response => {
+                return response.data
+            })
+    },
+    updateStatus(status){
+        return instance.put(`profile/status`, {status:status})
+    }
+}
