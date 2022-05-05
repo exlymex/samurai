@@ -2,9 +2,6 @@ import React from "react";
 import a from "./Users.module.css";
 import userPhoto from "../../assets/images/user.png";
 import {NavLink} from "react-router-dom";
-import * as axios from "axios";
-import {usersAPI} from "../../api/api";
-import {followThunkCreator, unfollowThunkCreator} from "../../redux/users-reducer";
 
 let Users = (props) => {
     let pagesCount = Math.ceil(props.totalUserCount / props.pageSize)

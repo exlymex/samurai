@@ -1,7 +1,5 @@
 import React from "react";
 import Profile from "./Profile";
-import * as axios from "axios";
-import { Navigate, Outlet } from "react-router-dom";
 import {connect} from "react-redux";
 import {profileThunkCreator} from "../../redux/profile-reducer";
 import {
@@ -11,7 +9,6 @@ import {
     useNavigate,
     useParams,
 } from "react-router-dom";
-import {WithAuthRedirect} from "../../HOC/withAuthRedirect";
 import {compose} from "redux";
 
 function withRouter(Component) {
@@ -53,7 +50,7 @@ let mapStateToProps = (state) => ({
 export default compose(
     connect(mapStateToProps,{profileThunkCreator}),
     withRouter,
-    WithAuthRedirect
+    // WithAuthRedirect
 )(ProfileContainer)
 
 // let AuthRedirectComponent = WithAuthRedirect(ProfileContainer)
