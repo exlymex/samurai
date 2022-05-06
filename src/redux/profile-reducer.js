@@ -19,15 +19,14 @@ let initialState = {
 export const profileReducer = (state = initialState, action) => {
     switch (action.type) {
         case ADD__POST: {
-            let user = {
+            let post = {
                 likeCount: 5,
-                message: state.newPostText,
+                message: action.text,
                 Comments: 5
             }
             return {
                 ...state,
-                posts:[...state.posts,user],
-                newPostText : ''
+                posts:[...state.posts,post],
             }
         }
         case UPDATE_NEW_POST_TEXT: {
@@ -47,6 +46,7 @@ export const profileReducer = (state = initialState, action) => {
     }
 
 }
+
 
 export const profileThunkCreator = (userId) => (dispatch) => {
         usersAPI.getUserProfile(userId)
@@ -71,9 +71,6 @@ export const updateStatusThunk = (status) => (dispatch) => {
 }
 
 export const setUserProfile = (profile) => ({type:SET_USERS_PROFILE,profile})
-export const addPostActionCreator = () => ({type: ADD__POST})
-export const updateNewPostTextActionCreator = (text) => ({
-    type: UPDATE_NEW_POST_TEXT,newPostText: text
-})
+export const addPostActionCreator = (text) => ({type: ADD__POST,text})
 export const setStatus = (status) => ({type:SET_STATUS,status})
 export default profileReducer

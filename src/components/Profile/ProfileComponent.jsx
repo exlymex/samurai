@@ -30,12 +30,13 @@ function withRouter(Component) {
 class ProfileContainer extends React.Component{
     componentDidMount() {
         let userId = this.props.router.params.userId;
+       if(userId === undefined){
+           userId = 2
+       }
         this.props.profileThunkCreator(userId)
         this.props.getStatusThunk(userId)
     }
     render() {
-
-
         return (
             <div>
                <Profile {...this.props} profile = {this.props.profile} status = {this.props.status} updateStatus={this.props.updateStatusThunk}/>
