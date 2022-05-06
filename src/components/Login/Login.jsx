@@ -1,30 +1,50 @@
 import React from "react";
-import {Field, reduxForm} from "redux-form";
+import {Button, Form, Schema} from "rsuite";
+import {useRef, useState} from "react";
+import {Field} from "../RSUITE components/rsuiteComp";
 
-const LoginForm = (props) => {
-
+const LoginReduxForm = ({onSubmit}) => {
+    const {StringType, NumberType} = Schema.Types;
+    const handleSubmit = () => {
+        if (!formRef.current.check()) {
+            return;
+        }
+        onSubmit(formValue.name)
+    };
+    const formRef = useRef();
+    const [formError, setFormError] = useState({});
+    const [formValue, setFormValue] = useState({
+        name: "",
+        password : ''
+    });
+    const model = Schema.Model({
+        name:StringType()
+            .isRequired('This field is required.')
+            .minLength(2,'Min = 2')
+    });
     return(
-            <form onSubmit={props.handleSubmit}>
-                <div>
-                    <Field placeholder={"Login"} name = {"login"} component={"input"}/>
-                </div>
-                <div>
-                    <Field placeholder={"Password"} name = {"password"}component={"input"}/>
-                </div>
-                <div>
-                    <Field type={"checkbox"} name = {"rememberMe"} component={"input"} /> remember me
-                </div>
-                <div>
-                    <button>Log in</button>
-                </div>
-            </form>
+        <div>
+            <Form
+                ref={formRef}
+                formValue={formValue}
+                onChange={setFormValue}
+                onCheck={setFormError}
+                formError={formError}
+                model = {model}
+            >
+                <Field component = 'textarea' name="name" label="Your name"/>
+                <Field component = 'textarea' name="password" label="Your password"/>
+                <Form.Group>
+                    <Button  color="violet" appearance="ghost" onClick={handleSubmit}>
+                        Submit
+                    </Button>
+                </Form.Group>
+            </Form>
+        </div>
     )
 }
-const LoginReduxForm = reduxForm({
-    form:"login"
-})(LoginForm)
 
-const Login = (props) => {
+const Login = () => {
     const onSubmit = (formData) => {
         console.log(formData)
     }

@@ -2,8 +2,8 @@ import React from "react"
 import s from './Dialogs.module.css'
 import DialogsItem from "./DialogsItem/DialogsItem"
 import Message from "./Message/Message"
-import {Button, Form, Input, InputNumber, Schema} from "rsuite";
-import { useEffect, useRef, useState } from "react";
+import {Button, Form,Schema} from "rsuite";
+import { useRef, useState } from "react";
 import {Field} from "../RSUITE components/rsuiteComp";
 const Dialogs = (props) => {
 
@@ -29,17 +29,23 @@ const Dialogs = (props) => {
 }
 
 const AddMessageForm = ({onSubmit}) => {
+    const {StringType, NumberType} = Schema.Types;
     const handleSubmit = () => {
         if (!formRef.current.check()) {
             return;
         }
-        onSubmit(formValue.name)
-        console.log("formValue", formValue)
+
+        onSubmit(formValue.message)
     };
     const formRef = useRef();
     const [formError, setFormError] = useState({});
     const [formValue, setFormValue] = useState({
-        name: "",
+        message: "",
+    });
+    const model = Schema.Model({
+        message:StringType()
+            .isRequired('This field is required.')
+            .minLength(10,'Min = 10')
     });
     return(
         <div>
@@ -49,8 +55,9 @@ const AddMessageForm = ({onSubmit}) => {
             onChange={setFormValue}
             onCheck={setFormError}
             formError={formError}
+            model = {model}
         >
-            <Field component = 'textarea' name="name" label="Your name"/>
+            <Field component = 'textarea' name="message" label="Your name"/>
               <Form.Group>
                   <Button  color="violet" appearance="ghost" onClick={handleSubmit}>
                       Submit
