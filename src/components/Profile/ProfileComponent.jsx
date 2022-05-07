@@ -3,15 +3,13 @@ import Profile from "./Profile";
 import {connect} from "react-redux";
 import {getStatusThunk, profileThunkCreator, updateStatusThunk} from "../../redux/profile-reducer";
 import {
-    Route,
-    Routes,
     useLocation,
     useNavigate,
     useParams,
 } from "react-router-dom";
 import {compose} from "redux";
-
-function withRouter(Component) {
+import {Navigate} from "react-router-dom";
+export function withRouter(Component) {
     function ComponentWithRouterProp(props) {
         let location = useLocation();
         let navigate = useNavigate();
@@ -19,7 +17,7 @@ function withRouter(Component) {
         return (
             <Component
                 {...props}
-                router={{ location, navigate, params }}
+                router={{location, navigate, params}}
             />
         );
     }
@@ -28,11 +26,14 @@ function withRouter(Component) {
 }
 
 class ProfileContainer extends React.Component{
-    componentDidMount() {
+    componentDidMount(){
         let userId = this.props.router.params.userId;
-       if(!userId){
-           userId = this.props.authorizedUserId
-       }
+        if (!userId) {
+            userId = this.props.authorizedUserId
+           if(!userId){
+               return <Navigate to={'/login'}/>
+           }
+        }
         this.props.profileThunkCreator(userId)
         this.props.getStatusThunk(userId)
     }
@@ -53,12 +54,4 @@ let mapStateToProps = (state) => ({
 export default compose(
     connect(mapStateToProps,{profileThunkCreator,getStatusThunk,updateStatusThunk}),
     withRouter,
-    // WithAuthRedirect
 )(ProfileContainer)
-
-// let AuthRedirectComponent = WithAuthRedirect(ProfileContainer)
-// let mapStateToPropsForRedirect = (state) => ({
-//     isAuth:state.auth.isAuth
-// })
-// let WithRedirectComponent = connect(mapStateToPropsForRedirect)(AuthRedirectComponent)
-// export default connect(mapStateToProps,{profileThunkCreator})(withRouter(WithRedirectComponent));

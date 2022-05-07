@@ -25,10 +25,10 @@ const authReducer = (state = initialState, action) => {
 
 export const setUserData = (userId,email,login,isAuth,isMistake = false) => ({
     type: SET_USER_DATA,payload:{userId,email,login,isAuth,isMistake}
-}) 
+})
 
 export const authThunkCreator = () => (dispatch) =>{
-    usersAPI.getAuthMe()
+    return usersAPI.getAuthMe()
         .then(data => {
             if(data.resultCode === 0){
                 let {id,login,email} = data.data;
