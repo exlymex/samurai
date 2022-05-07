@@ -6,7 +6,8 @@ let initialState = {
    userId:null ,
     email:null,
     login:null,
-    isAuth:false
+    isAuth:false,
+    isMistake: false
 
 }
 const authReducer = (state = initialState, action) => {
@@ -22,8 +23,8 @@ const authReducer = (state = initialState, action) => {
     }
 }
 
-export const setUserData = (userId,email,login,isAuth) => ({
-    type: SET_USER_DATA,payload:{userId,email,login,isAuth}
+export const setUserData = (userId,email,login,isAuth,isMistake = false) => ({
+    type: SET_USER_DATA,payload:{userId,email,login,isAuth,isMistake}
 }) 
 
 export const authThunkCreator = () => (dispatch) =>{
@@ -41,6 +42,8 @@ export const login = (email,password) => (dispatch) =>{
         .then(data => {
             if(data.resultCode === 0){
                 dispatch(authThunkCreator())
+            }else{
+                dispatch(setUserData(null,null,null,false,true))
             }
 
         })

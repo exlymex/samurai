@@ -57,11 +57,14 @@ const Login = (props) => {
     return(
         <div>
             <h1>Form</h1>
+
            <LoginReduxForm onSubmit = {onSubmit}/>
+            {props.isMistake && <div>Incorrect email or password</div>}
         </div>
     )
 }
 const mapsStateToProps = (state) => ({
-    isAuth:state.auth.isAuth
+    isAuth:state.auth.isAuth,
+    isMistake: state.auth.isMistake
 })
 export default connect(mapsStateToProps,{login})(Login)
