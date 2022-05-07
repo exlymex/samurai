@@ -2,23 +2,26 @@ import React from "react";
 import {Button, Form, Schema} from "rsuite";
 import {useRef, useState} from "react";
 import {Field} from "../RSUITE components/rsuiteComp";
-
+import {connect} from "react-redux";
+import {login} from "../../redux/auth-reducer";
+import {Navigate} from "react-router-dom";
+import mapStateToProps from "react-redux/lib/connect/mapStateToProps";
 const LoginReduxForm = ({onSubmit}) => {
     const {StringType, NumberType} = Schema.Types;
     const handleSubmit = () => {
         if (!formRef.current.check()) {
             return;
         }
-        onSubmit(formValue.name)
+        onSubmit(formValue )
     };
     const formRef = useRef();
     const [formError, setFormError] = useState({});
     const [formValue, setFormValue] = useState({
-        name: "",
+        email: "",
         password : ''
     });
     const model = Schema.Model({
-        name:StringType()
+        email:StringType()
             .isRequired('This field is required.')
             .minLength(2,'Min = 2')
     });
@@ -32,8 +35,8 @@ const LoginReduxForm = ({onSubmit}) => {
                 formError={formError}
                 model = {model}
             >
-                <Field component = 'textarea' name="name" label="Your name"/>
-                <Field component = 'textarea' name="password" label="Your password"/>
+                <Field component = 'textarea' name="email" label="Your email"/>
+                <Field type = 'password' component = 'textarea' name="password" label="Your password"/>
                 <Form.Group>
                     <Button  color="violet" appearance="ghost" onClick={handleSubmit}>
                         Submit
@@ -44,9 +47,12 @@ const LoginReduxForm = ({onSubmit}) => {
     )
 }
 
-const Login = () => {
+const Login = (props) => {
     const onSubmit = (formData) => {
-        console.log(formData)
+        props.login(formData.email,formData.password)
+    }
+    if(props.isAuth){
+        return <Navigate to={'/profile'}></Navigate>
     }
     return(
         <div>
@@ -55,4 +61,7 @@ const Login = () => {
         </div>
     )
 }
-export default Login
+const mapsStateToProps = (state) => ({
+    isAuth:state.auth.isAuth
+})
+export default connect(mapsStateToProps,{login})(Login)
