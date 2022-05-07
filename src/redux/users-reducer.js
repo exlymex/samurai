@@ -79,6 +79,7 @@ export default usersReducer
 export const getUsersThunkCreator = (currentPage,pageSize) => {
     return (dispatch) => {
         dispatch(toggleIsFetching(true))
+        dispatch(setCurrentPage(currentPage))
         usersAPI.getUser(currentPage, pageSize).then(data => {
             dispatch(toggleIsFetching(false))
             dispatch(setUser(data.items))
